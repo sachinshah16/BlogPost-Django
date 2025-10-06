@@ -83,14 +83,15 @@ WSGI_APPLICATION = 'BlogPost.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://sachin:sachin@localhost:5432/blogpost',
-        conn_max_age=600,
-        conn_health_checks=True
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'blogpost',
+        'USER': 'sachin',
+        'PASSWORD': 'sachin',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
