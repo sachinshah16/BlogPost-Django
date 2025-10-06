@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import os
+import dj_database_url
 
 from pathlib import Path
 
@@ -81,15 +83,13 @@ WSGI_APPLICATION = 'BlogPost.wsgi.application'
 # }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'blogpost',     # e.g., 'mydjangoprod'
-        'USER': 'sachin',     # e.g., 'django_user'
-        'PASSWORD': 'sachin',
-        'HOST': 'localhost',        # Change to your AWS RDS/external host address
-        'PORT': '5432',             # Default port for PostgreSQL
-    }
+    'default': dj_database_url.config(
+        default='postgres://sachin:sachin@localhost:5432/blogpost',
+        conn_max_age=600,
+        conn_health_checks=True
+    )
 }
+
 
 
 # Password validation
