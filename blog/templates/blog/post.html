@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block start %}
+
+    <div class="post contact">
+        
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="text" name="title" id="" placeholder="Title" value="{{title}}">
+            <!-- <input type="text" name="content" id="" placeholder="Content:"> -->
+            <textarea name="content" id="" placeholder="Content:">{{content}}</textarea>
+            <input type="submit" value="Post">
+        </form>
+    </div>
+
+    {% if error_message %}
+        <script>
+            alert("{{error_message}}")
+        </script>
+      
+    {% endif %}
+
+
+
+{% endblock start %}

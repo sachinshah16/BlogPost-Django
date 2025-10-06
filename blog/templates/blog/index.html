@@ -1,0 +1,50 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block start %}
+
+
+<div class="home">
+    <h1>Welcome {% if user.is_authenticated %}
+      {{user.first_name}}
+    {% endif %} to BlogPost</h1>
+    <p>This is a simple blog website where you can read and share your thoughts with the world. You can also create an
+        account to manage your posts and interact with other users.</p>
+    {% if not user.is_authenticated %}
+    <a href="/login" class="btn">Get Started</a>
+    {% else %}
+    <a href="/post_blog" class="btn">Create Post</a>
+    {% endif %}
+
+</div>
+
+<div class="posts">
+    {% if posts %}
+
+    <h2>Recent Posts</h2>
+    {% for post in posts %}
+
+
+    <div class="post-item">
+        <h3>{{ post.title }}</h3>
+        <h5>Author: {% if user.username == post.user.username %}
+            You
+            {%else%}
+            {{post.user.first_name}} {{post.user.last_name}}
+          
+        {% endif %}</h5>
+        <p>{{ post.content }}</p>
+        <h5>Created at: {{post.created_at}}</h5>
+        <a href="/posts" class="btn">Read More</a>
+    </div>
+    {% endfor %}
+
+    {% endif %}
+
+</div>
+
+
+
+
+
+{% endblock start %}

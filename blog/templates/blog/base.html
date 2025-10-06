@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'blog/base.css'%}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{pageName}}</title>
+</head>
+
+<body>
+    <section>
+        <header>
+            <div class="left">
+                <a href="/"><h1><span>Blog</span>Post</h1></a>
+            </div>
+
+            <div class="right">
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                {% if not user.is_authenticated %}
+                <a href="/login">Login</a>
+                {% endif %}
+                <a href="/contact">Contact</a>
+                {% if user.is_authenticated %}
+                <a href="/profile">Profile</a>
+                {% endif %}
+                
+            </div>
+
+        </header>
+
+        <div class="marg"></div>
+
+
+        {% block start %}
+          
+        {% endblock start %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </section>
+
+
+
+
+</body>
+
+</html>

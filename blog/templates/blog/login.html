@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block start %}
+
+<div class="login">
+
+    <h2>Login to Your Account</h2>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="User Name:" name="username" id="">
+        <input type="password" name="password" id="" placeholder="Password:">
+        <input type="submit" value="Login">
+    </form>
+    <a href="/signup">You don't have account? Click Here</a>
+    <a href="/forgot_pass">Forgot Password</a>
+</div>
+
+
+
+
+
+{% if error_message %}
+<script>
+    alert("{{ error_message|escapejs }}");
+</script>
+{% endif %}
+{% endblock start %}

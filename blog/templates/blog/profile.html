@@ -1,0 +1,31 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block start %}
+
+<div class="profile">
+    <h1>User Profile</h1>
+    <p>Welcome to your profile page. Here you can manage your account details, view your posts, and update your information.</p>
+    {% if user.is_authenticated %}
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+
+        <div class="button">
+            <a href="/edit-profile" class="btn">Edit Profile</a>
+            <a href="/logout" class="btn">Logout</a>
+        </div>
+        
+    {% else %}
+        <p>Please <a href="/login">login</a> to view your profile details.</p>
+    {% endif %}
+    
+</div>
+
+
+
+
+
+  
+{% endblock start %}

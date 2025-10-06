@@ -1,0 +1,30 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block start %}
+
+<div class="signup">
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" name="firstname" placeholder="First Name:" required>
+        <input type="text" name="lastname" placeholder="Last Name:">
+        <input type="text" name="username" id="" placeholder="Username:" required>
+        <input type="email" name="email" id="" placeholder="Email:">
+        <input type="text" name="mobile" placeholder="Mobile Number:" required>
+        <input type="password" name="password" id="" placeholder="Password:" required>
+        <input type="password" name="cpassword" id="" placeholder="Confirm Password:" required>
+        <input type="submit" value="Sign Up">
+    </form>
+
+    {% if error_message %}
+    <script>
+        alert("{{ error_message|escapejs }}");
+    </script>
+    {% endif %}
+</div>
+
+
+
+
+
+{% endblock start %}
