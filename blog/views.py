@@ -50,8 +50,8 @@ def signup(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         
-        # Here, you would typically save the user data to the database
-        # For demonstration, we'll just redirect to the profile page with the username
+        #Saving the user data to the database
+        # And redirect to the profile page with the username
         
         if firstname and username and email and password:
             if User.objects.filter(username=username).exists():
@@ -69,20 +69,25 @@ def signup(request):
 
 @login_required(login_url='login')
 def profile(request):
-    
+    posts = []
     if not request.user.is_authenticated:
         return redirect('login')
+    else:
+        posts = Post.objects.filter(user=request.user).order_by('-created_at')
+        
     
-    return render(request, 'blog/profile.html', context = {'pageName' : 'Profile | BlogPost'})
+    return render(request, 'blog/profile.html', context = {'pageName' : 'Profile | BlogPost','posts':posts})
 
 @login_required(login_url='login')
 def editProfile(request):
+    
     return render(request, 'blog/edit_profile.html', context={'pageName':'Edit-Profile | BlogPost'})
 
 @login_required(login_url='login')
 def logout_view(request):
     auth_logout(request)
     return redirect('/')
+
 
 @login_required(login_url='login')
 def post(request):
