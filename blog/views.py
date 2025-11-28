@@ -3,6 +3,8 @@ from .models import Post
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required 
+from .sendmail import send_email
+from django.http import HttpResponse
 
 User = get_user_model()
 
@@ -22,6 +24,25 @@ def about(request):
     return render(request, 'blog/about.html', context = {'pageName' : 'About | BlogPost'})
 
 def contact(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        body = f'''Hello,
+{message}
+                    
+Regards
+{name}
+{email}
+                '''
+        
+        send_email(subject, body)
+        
+        return HttpResponse("<h1>Your message sent successfuly</h1>")
+
+
     return render(request, 'blog/contact.html', context = {'pageName' : 'Contact | BlogPost'})
 
 def login_view(request):
@@ -50,8 +71,8 @@ def signup(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         
-        # Here, you would typically save the user data to the database
-        # For demonstration, we'll just redirect to the profile page with the username
+        #Saving the user data to the database
+        # And redirect to the profile page with the username
         
         if firstname and username and email and password:
             if User.objects.filter(username=username).exists():
@@ -69,20 +90,25 @@ def signup(request):
 
 @login_required(login_url='login')
 def profile(request):
-    
+    posts = []
     if not request.user.is_authenticated:
         return redirect('login')
+    else:
+        posts = Post.objects.filter(user=request.user).order_by('-created_at')
+        
     
-    return render(request, 'blog/profile.html', context = {'pageName' : 'Profile | BlogPost'})
+    return render(request, 'blog/profile.html', context = {'pageName' : 'Profile | BlogPost','posts':posts})
 
 @login_required(login_url='login')
 def editProfile(request):
+    
     return render(request, 'blog/edit_profile.html', context={'pageName':'Edit-Profile | BlogPost'})
 
 @login_required(login_url='login')
 def logout_view(request):
     auth_logout(request)
     return redirect('/')
+
 
 @login_required(login_url='login')
 def post(request):
