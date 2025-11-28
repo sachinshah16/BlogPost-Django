@@ -3,6 +3,8 @@ from .models import Post
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required 
+from .sendmail import send_email
+from django.http import HttpResponse
 
 User = get_user_model()
 
@@ -22,6 +24,25 @@ def about(request):
     return render(request, 'blog/about.html', context = {'pageName' : 'About | BlogPost'})
 
 def contact(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        body = f'''Hello,
+{message}
+                    
+Regards
+{name}
+{email}
+                '''
+        
+        send_email(subject, body)
+        
+        return HttpResponse("<h1>Your message sent successfuly</h1>")
+
+
     return render(request, 'blog/contact.html', context = {'pageName' : 'Contact | BlogPost'})
 
 def login_view(request):
